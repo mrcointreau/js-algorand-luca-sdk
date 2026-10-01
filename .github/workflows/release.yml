@@ -33,9 +33,14 @@ jobs:
       install-algokit: false
       polytest: false
 
+  check_docs:
+    uses: ./.github/workflows/check-docs.yml
+
   build:
     name: Build
-    needs: ci
+    needs:
+      - ci
+      - check_docs
     uses: algorandfoundation/algokit-shared-config/.github/workflows/node-build-zip.yml@main
     with:
       build-path: dist
@@ -106,10 +111,20 @@ jobs:
       # again, so that `main` has the updated README and the new tag in its history.
       - name: Merge release -> main
         if: github.ref_name == 'release'
-        uses: devmasx/merge-branch@854d3ac71ed1e9deb668e0074781b81fdd6e771f # v1.4.0
+        uses: devmasx/merge-branch@6ec8363d74aad4f1615d1234ae1908b4185c4313 # master (2023-03-17): the latest tag, v1.4.0, has no message input
         with:
           type: now
           from_branch: release
           target_branch: main
           message: Merge release back to main to get README update [no ci]
           github_token: ${{ steps.app_token.outputs.token }}
+
+  publish_docs:
+    name: Publish docs to GitHub Pages
+    needs: release
+    if: github.ref_name == 'release'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/publish-docs.yml
