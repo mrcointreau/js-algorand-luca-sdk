@@ -1,5 +1,5 @@
 {
-  "name": "algosdk",
+  "name": "@mrcointreau/algosdk-luca",
   "version": "3.8.0",
   "description": "The official JavaScript SDK for Algorand",
   "main": "dist/cjs/index.js",
@@ -45,7 +45,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/algorand/js-algorand-sdk.git"
+    "url": "git+https://github.com/mrcointreau/js-algorand-luca-sdk.git"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "algorand-msgpack": "^1.1.0",
@@ -181,12 +184,7 @@
           }
         }
       ],
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ],
+      "@semantic-release/npm",
       [
         "@semantic-release/exec",
         {
@@ -218,6 +216,6 @@
   "author": "Algorand, llc",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0"
   }
 }
